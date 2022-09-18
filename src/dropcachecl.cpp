@@ -1,6 +1,5 @@
 // -----------------------------------------------
 // 'dropcachecl' - Edit "drop-caches" file
-// located at '/proc/sys/vm/drop-caches'
 // Copyright © 2022
 // Ian Pride @ New Pride Software/Services
 // Sat 17 Sep 2022 13:03:04 CST
