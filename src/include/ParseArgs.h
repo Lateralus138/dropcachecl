@@ -7,6 +7,7 @@ struct Options
   bool isQuiet;
   bool logStdout;
   bool logStderr;
+  bool doDeleteLog;
   std::string optionString;
 };
 namespace ParseArgs
@@ -18,6 +19,7 @@ namespace ParseArgs
     bool isQuiet,
     bool logStdout,
     bool logStderr,
+    bool doDeleteLog,
     std::string optionString
   );
 };

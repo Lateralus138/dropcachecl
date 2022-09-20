@@ -25,17 +25,7 @@ int main(int argc, const char *argv[])
   // -f,--fullcache     // 3
   // -m,--mode          // specify mode by name or int from the option_map
   Options options_;
-  // ParseArgs::SetOptions(options_, false, false, false, "default");
   ParseArgs::Parse(argc, argv, options_);
-
-  // ParseArgs::SetOptions
-  // (
-  //   options_,
-  //   options_.isQuiet,
-  //   !options_.logStdout,
-  //   !options_.logStderr,
-  //   "fullcache"
-  // );
 
   ExitCode genericCode;
   Globals::DefaultExitCode(genericCode);
@@ -58,14 +48,18 @@ int main(int argc, const char *argv[])
   std::ofstream ofile(dropCachesPath.native().c_str());
   if (ofile.is_open())
   {
+    std::string logMessage
+    (
+      "Drop Cache set to [" + std::to_string(option_map[options_.optionString]) +
+      ":" + options_.optionString + "] @ " + Globals::time_utc() + "\n"
+    );
+    if (!options_.isQuiet)
+    {
+      std::cout << logMessage;
+    }
     ofile << option_map[options_.optionString];
     if (options_.logStdout && logger.is_open())
     {
-      std::string logMessage
-      (
-        "Drop Cache set to [" + std::to_string(option_map[options_.optionString]) +
-        ":" + options_.optionString + "] @ " + Globals::time_utc() + "\n"
-      );
       logger << logMessage;
     }
     ofile.close();
@@ -86,13 +80,16 @@ int main(int argc, const char *argv[])
     }
     catch(ExitCode & code)
     {
-      std::cerr << code.message << '\n';
+      const std::string logMessage =
+        "Could not open'" +
+        dropCachesPath.native() + "' for writing @ " +
+        Globals::time_utc() + "\n";
+      if (!options_.isQuiet)
+      {
+        std::cerr << code.message << '\n' << logMessage;
+      }
       if (options_.logStderr && logger.is_open())
       {
-        const std::string logMessage =
-          "Could not open'" +
-          dropCachesPath.native() + "' for writing @ " +
-          Globals::time_utc() + "\n";
         logger << logMessage;
         logger.close();
       }
