@@ -28,14 +28,15 @@ namespace ParseArgs
           switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "help");
-          options_.isQuiet      = (lower == "quiet");
-          options_.logStdout    = (lower == "logoutput");
-          options_.logStderr    = (lower == "logerrors");
-          options_.doDeleteLog  = (lower == "logdelete");
-          options_.optionString = (lower == "default")?"default":options_.optionString;
-          options_.optionString = (lower == "pagecache")?"default":options_.optionString;
-          options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
-          options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
+          set_check_options(options_, lower, switch_);
+          // options_.isQuiet      = (lower == "quiet");
+          // options_.logStdout    = (lower == "logoutput");
+          // options_.logStderr    = (lower == "logerrors");
+          // options_.doDeleteLog  = (lower == "logdelete");
+          // options_.optionString = (lower == "default")?"default":options_.optionString;
+          // options_.optionString = (lower == "pagecache")?"default":options_.optionString;
+          // options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
+          // options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
           if (lower == "mode")
           {
             if (args[index + 2].empty())
@@ -61,14 +62,15 @@ namespace ParseArgs
           switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "h");
-          options_.isQuiet      = (lower == "q");
-          options_.logStdout    = (switch_ == "l");
-          options_.logStderr    = (switch_ == "L");
-          options_.doDeleteLog  = (lower == "x");
-          options_.optionString = (lower == "default")?"default":options_.optionString;
-          options_.optionString = (lower == "pagecache")?"default":options_.optionString;
-          options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
-          options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
+          set_check_options(options_, lower, switch_);
+          // options_.isQuiet      = (lower == "q");
+          // options_.logStdout    = (switch_ == "l");
+          // options_.logStderr    = (switch_ == "L");
+          // options_.doDeleteLog  = (lower == "x");
+          // options_.optionString = (lower == "default")?"default":options_.optionString;
+          // options_.optionString = (lower == "pagecache")?"default":options_.optionString;
+          // options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
+          // options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
           if (lower == "m")
           {
             if (args[index + 2].empty())
@@ -171,5 +173,16 @@ namespace ParseArgs
       exitcode_.message = "No switch provided with '-'.";
       try_catch_exit(exitcode_, options_.isQuiet);
     }
+  }
+  void set_check_options(Options & options_, std::string lower, std::string switch_)
+  {
+    options_.isQuiet      = (lower == "q");
+    options_.logStdout    = (switch_ == "l");
+    options_.logStderr    = (switch_ == "L");
+    options_.doDeleteLog  = (lower == "x");
+    options_.optionString = (lower == "default")?"default":options_.optionString;
+    options_.optionString = (lower == "pagecache")?"default":options_.optionString;
+    options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
+    options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
   }
 };

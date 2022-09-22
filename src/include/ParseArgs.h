@@ -33,5 +33,6 @@ namespace ParseArgs
   extern void try_catch_exit(ExitCode &exitcode_, bool isQuiet);
   extern void DefaultExitCode(ExitCode &code_);
   extern void switch_check(std::string switch_, ExitCode &exitcode_, Options &options_);
+  extern void set_check_options(Options &options_, std::string lower, std::string switch_);
 };
 #endif
