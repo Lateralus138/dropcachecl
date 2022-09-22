@@ -6,59 +6,37 @@
 // -----------------------------------------------
 #include <iostream>
 #include <fstream>
-#include <map>
+// #include <map>
 #include <filesystem>
 #include "Globals.h"
 #include <pwd.h>
 #include "ParseArgs.h"
 int main(int argc, const char *argv[])
 {
-  // TODO Add switches
-  // -h,--help          // This HELP message
-  // -l,--logoutput     // enable stdout logging
-  // -L,--logerrors     // enable stderr logging
-  // -q,--quiet         // Non-verbose output
-  // -x,--logdelete     // Delete '/var/log/dropcachecl.log'
-  // -d,--default       // 0
-  // -p,--pagecache     // 1
-  // -s,--slabobjects   // 2
-  // -f,--fullcache     // 3
-  // -m,--mode          // specify mode by name or int from the option_map
-  Options options_;
-  ParseArgs::Parse(argc, argv, options_);
-
-  ExitCode genericCode;
-  Globals::DefaultExitCode(genericCode);
-  
+  ExitCode exitCode;
+  ParseArgs::DefaultExitCode(exitCode);
+  Options options;
+  ParseArgs::Parse(argc, argv, options, exitCode);
   std::ofstream logger;
-  if (options_.logStderr || options_.logStdout)
+  if (options.logStderr || options.logStdout)
   {
     logger.open("/var/log/dropcachecl.log", std::ios_base::app);
   }
-  
   const std::filesystem::path dropCachesPath("/proc/sys/vm/drop_caches");
-  // TODO put map in ParseArgs
-  std::map<std::string, int> option_map =
-  {
-    {"default", 0},     {"0", 0},
-    {"pagecache", 1},   {"1", 1},
-    {"slabobjects", 2}, {"2", 2},
-    {"fullcache", 3},   {"3", 3}
-  };
   std::ofstream ofile(dropCachesPath.native().c_str());
   if (ofile.is_open())
   {
     std::string logMessage
     (
-      "Drop Cache set to [" + std::to_string(option_map[options_.optionString]) +
-      ":" + options_.optionString + "] @ " + Globals::time_utc() + "\n"
+      "Drop Cache set to [" + std::to_string(option_map[options.optionString]) +
+      ":" + options.optionString + "] @ " + Globals::time_utc() + "\n"
     );
-    if (!options_.isQuiet)
+    if (!options.isQuiet)
     {
       std::cout << logMessage;
     }
-    ofile << option_map[options_.optionString];
-    if (options_.logStdout && logger.is_open())
+    ofile << option_map[options.optionString];
+    if (options.logStdout && logger.is_open())
     {
       logger << logMessage;
     }
@@ -68,15 +46,15 @@ int main(int argc, const char *argv[])
   {
     try
     {
-      genericCode.value = 2;
-      genericCode.message =
+      exitCode.value = 2;
+      exitCode.message =
         std::string
         (
           "Could not open '" +
           dropCachesPath.native() +
           "' for writing.\nDo you have root privileges?"
         );
-      throw genericCode;
+      throw exitCode;
     }
     catch(ExitCode & code)
     {
@@ -84,11 +62,11 @@ int main(int argc, const char *argv[])
         "Could not open'" +
         dropCachesPath.native() + "' for writing @ " +
         Globals::time_utc() + "\n";
-      if (!options_.isQuiet)
+      if (!options.isQuiet)
       {
-        std::cerr << code.message << '\n' << logMessage;
+        std::cerr << code.message << '\n';
       }
-      if (options_.logStderr && logger.is_open())
+      if (options.logStderr && logger.is_open())
       {
         logger << logMessage;
         logger.close();
@@ -100,5 +78,5 @@ int main(int argc, const char *argv[])
   {
     logger.close();
   }
-  return genericCode.value;
+  return exitCode.value;
 }

@@ -84,11 +84,3 @@ namespace Globals
     return time;
   } 
 }
-namespace Globals
-{
-  void DefaultExitCode (ExitCode & code_)
-  {
-    code_.value = 0;
-    code_.message = "Success.";
-  }
-};

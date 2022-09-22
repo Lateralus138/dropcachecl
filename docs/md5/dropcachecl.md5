@@ -1,8 +1,12 @@
+d41d8cd98f00b204e9800998ecf8427e  /home/flux/programming/vscodium/cpp/dropcachecl/debian/usr/share/bash-completion/completions/.nomedia
+d41d8cd98f00b204e9800998ecf8427e  /home/flux/programming/vscodium/cpp/dropcachecl/debian/usr/share/doc/dropcachecl/.nomedia
+d41d8cd98f00b204e9800998ecf8427e  /home/flux/programming/vscodium/cpp/dropcachecl/debian/usr/bin/.nomedia
+d41d8cd98f00b204e9800998ecf8427e  /home/flux/programming/vscodium/cpp/dropcachecl/debian/debian/.nomedia
 9b2894236b692e726363e77884599cc9  /home/flux/programming/vscodium/cpp/dropcachecl/Makefile
-f8a13af89accde887431db81660db560  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/Globals.cpp
-43572bccf60934ae1d078fd3a3acc5f1  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/ParseArgs.h
-9da563ecf1232496b1ad031297c4dede  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/ParseArgs.cpp
-6eb32aa4a6c6deb18ab9c9983d63b9a1  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/Globals.h
-1fcb3d7700987d4557baed10fd55c30f  /home/flux/programming/vscodium/cpp/dropcachecl/src/dropcachecl.cpp
+5e615967be4622718d337950d406ea5d  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/Globals.cpp
+f01482cc86b24f5b2a6940f10200273d  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/ParseArgs.h
+aa9193039e38a9aeae1b52bd036ebde4  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/ParseArgs.cpp
+90ebca9713f3f9ae42a73aa6043c5be0  /home/flux/programming/vscodium/cpp/dropcachecl/src/include/Globals.h
+eed4e7dfa0396bfba0c0334db45fd25e  /home/flux/programming/vscodium/cpp/dropcachecl/src/dropcachecl.cpp
 1ebbd3e34237af26da5dc08a4e440464  /home/flux/programming/vscodium/cpp/dropcachecl/LICENSE
 9a6b25e79618dde76688e1c002976e15  /home/flux/programming/vscodium/cpp/dropcachecl/README.md
