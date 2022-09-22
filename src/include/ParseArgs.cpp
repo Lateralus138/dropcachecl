@@ -118,20 +118,41 @@ namespace ParseArgs
               // }
             }
             std::string newString = to_lower(args[index + 1]);
-            try
+            // try
+            // {
+            //   if (option_map.find(newString) == option_map.end())
+            //   {
+            //     exitcode_.value = 188;
+            //     exitcode_.message = "Key '" + newString + "' was not found in modes.";
+            //     throw exitcode_;
+            //   }
+            // }
+            // catch(ExitCode & error)
+            // {
+            //   std::cerr << error.message << '\n';
+            //   std::exit(error.value);
+            // }
+            if (option_map.find(newString) == option_map.end())
             {
-              if (option_map.find(newString) == option_map.end())
-              {
-                exitcode_.value = 188;
-                exitcode_.message = "Key '" + newString + "' was not found in modes.";
-                throw exitcode_;
-              }
+              exitcode_.value = 188;
+              exitcode_.message = "Key '" + newString + "' was not found in modes.";
+              try_catch_exit(exitcode_, options_.isQuiet);
+              // throw exitcode_;
             }
-            catch(ExitCode & error)
-            {
-              std::cerr << error.message << '\n';
-              std::exit(error.value);
-            }
+            // try
+            // {
+            //   if (option_map.find(newString) == option_map.end())
+            //   {
+            //     exitcode_.value = 188;
+            //     exitcode_.message = "Key '" + newString + "' was not found in modes.";
+            //     throw exitcode_;
+            //   }
+            // }
+            // catch(ExitCode & error)
+            // {
+            //   std::cerr << error.message << '\n';
+            //   std::exit(error.value);
+            // }
             options_.optionString = newString;
           }
           continue;
