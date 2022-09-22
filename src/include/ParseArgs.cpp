@@ -47,7 +47,7 @@ namespace ParseArgs
             {
               exitcode_.value = 189;
               exitcode_.message = "Argument for '" + string_ + "' not provided.";
-              try_catch_exit(exitcode_, options_.isQuiet)
+              try_catch_exit(exitcode_, options_.isQuiet);
               // try
               // {
               //   exitcode_.value = 189;
