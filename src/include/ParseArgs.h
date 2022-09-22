@@ -29,8 +29,9 @@ namespace ParseArgs
     bool doDeleteLog,
     std::string optionString
   );
-  std::string to_lower(std::string anyCaseString);
-  void try_catch_exit(ExitCode &exitcode_, bool isQuiet);
-  void DefaultExitCode(ExitCode &code_);
+  extern std::string to_lower(std::string anyCaseString);
+  extern void try_catch_exit(ExitCode &exitcode_, bool isQuiet);
+  extern void DefaultExitCode(ExitCode &code_);
+  extern void switch_check(std::string switch_, ExitCode &exitcode_, Options &options_);
 };
 #endif

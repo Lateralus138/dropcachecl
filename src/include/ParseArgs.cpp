@@ -25,12 +25,7 @@ namespace ParseArgs
         if (string_.substr(0, 2) == "--")
         {
           std::string switch_ = string_.substr(2);
-          if (switch_.empty())
-          {
-            exitcode_.value = 190;
-            exitcode_.message = "No switch provided with '--'.";
-            try_catch_exit(exitcode_, options_.isQuiet);
-          }
+          switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "help");
           options_.isQuiet      = (lower == "quiet");
@@ -56,20 +51,6 @@ namespace ParseArgs
               exitcode_.message = "Key '" + newString + "' was not found in modes.";
               try_catch_exit(exitcode_, options_.isQuiet);
             }
-            // try
-            // {
-            //   if (option_map.find(newString) == option_map.end())
-            //   {
-            //     exitcode_.value = 188;
-            //     exitcode_.message = "Key '" + newString + "' was not found in modes.";
-            //     throw exitcode_;
-            //   }
-            // }
-            // catch(ExitCode & error)
-            // {
-            //   std::cerr << error.message << '\n';
-            //   std::exit(error.value);
-            // }
             options_.optionString = newString;
           }
           continue;
@@ -77,12 +58,7 @@ namespace ParseArgs
         if (string_.substr(0, 1) == "-")
         {
           std::string switch_ = string_.substr(1);
-          if (switch_.empty())
-          {
-            exitcode_.value = 191;
-            exitcode_.message = "No switch provided with '-'.";
-            try_catch_exit(exitcode_, options_.isQuiet);
-          }
+          switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "h");
           options_.isQuiet      = (lower == "q");
@@ -186,5 +162,14 @@ namespace ParseArgs
   {
     code_.value = 0;
     code_.message = "Success.";
+  }
+  void switch_check(std::string switch_, ExitCode &exitcode_, Options &options_)
+  {
+    if (switch_.empty())
+    {
+      exitcode_.value = 191;
+      exitcode_.message = "No switch provided with '-'.";
+      try_catch_exit(exitcode_, options_.isQuiet);
+    }
   }
 };
