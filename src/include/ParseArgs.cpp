@@ -45,17 +45,20 @@ namespace ParseArgs
           {
             if (args[index + 2].empty())
             {
-              try
-              {
-                exitcode_.value = 189;
-                exitcode_.message = "Argument for '" + string_ + "' not provided.";
-                throw exitcode_;
-              }
-              catch(ExitCode & error)
-              {
-                std::cerr << error.message << '\n';
-                std::exit(error.value);
-              }
+              exitcode_.value = 189;
+              exitcode_.message = "Argument for '" + string_ + "' not provided.";
+              try_catch_exit(exitcode_, options_.isQuiet)
+              // try
+              // {
+              //   exitcode_.value = 189;
+              //   exitcode_.message = "Argument for '" + string_ + "' not provided.";
+              //   throw exitcode_;
+              // }
+              // catch(ExitCode & error)
+              // {
+              //   std::cerr << error.message << '\n';
+              //   std::exit(error.value);
+              // }
             }
             std::string newString = to_lower(args[index + 1]);
             try
@@ -99,17 +102,20 @@ namespace ParseArgs
           {
             if (args[index + 2].empty())
             {
-              try
-              {
-                exitcode_.value = 189;
-                exitcode_.message = "Argument for '" + string_ + "' not provided.";
-                throw exitcode_;
-              }
-              catch(ExitCode & error)
-              {
-                std::cerr << error.message << '\n';
-                std::exit(error.value);
-              }
+              exitcode_.value = 189;
+              exitcode_.message = "Argument for '" + string_ + "' not provided.";
+              try_catch_exit(exitcode_, options_.isQuiet);
+              // try
+              // {
+              //   exitcode_.value = 189;
+              //   exitcode_.message = "Argument for '" + string_ + "' not provided.";
+              //   throw exitcode_;
+              // }
+              // catch(ExitCode & error)
+              // {
+              //   std::cerr << error.message << '\n';
+              //   std::exit(error.value);
+              // }
             }
             std::string newString = to_lower(args[index + 1]);
             try
