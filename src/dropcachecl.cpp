@@ -16,25 +16,29 @@ int main(int argc, const char *argv[])
   ParseArgs::DefaultExitCode(exitCode);
   Options options;
   ParseArgs::Parse(argc, argv, options, exitCode);
-  if (options.doDeleteLog)
-  {
-    if (remove(options.logFile.c_str()) == 0)
-    {
-      if (!options.isQuiet)
-      {
-        const std::string message =
-          "Log file '" +
-          options.logFile +
-          "' deleted successfully.";
-        std::cout << message << '\n';
-      }
-    }
-    else
-    {
-      const std::string message = "Log file '" + options.logFile + "' could not be deleted.";
-      std::cerr << message << '\n';
-    }
-  }
+  ParseArgs::check_delete_log(options);
+  // if (options.doDeleteLog)
+  // {
+  //   if (remove(options.logFile.c_str()) == 0)
+  //   {
+  //     if (!options.isQuiet)
+  //     {
+  //       const std::string message =
+  //         "Log file '" +
+  //         options.logFile +
+  //         "' deleted successfully.";
+  //       std::cout << message << '\n';
+  //     }
+  //   }
+  //   else
+  //   {
+  //    if (!options.isQuiet)
+  //     {
+  //       const std::string message = "Log file '" + options.logFile + "' could not be deleted.";
+  //       std::cerr << message << '\n';
+  //     }
+  //   }
+  // }
   std::ofstream logger;
   if (options.logStderr || options.logStdout)
   {
