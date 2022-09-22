@@ -13,7 +13,7 @@ namespace ParseArgs
 {
   void Parse(int argc, const char *argv[], Options &options_, ExitCode & exitcode_)
   {
-    SetOptions(options_, false, false, false, false, "default");
+    SetOptions(options_, false, false, false, false, "default", "/var/log/dropcachecl.log");
     if (argc > 1)
     {
       bool isHelp = false;
@@ -28,15 +28,7 @@ namespace ParseArgs
           switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "help");
-          set_check_options(options_, lower, switch_);
-          // options_.isQuiet      = (lower == "quiet");
-          // options_.logStdout    = (lower == "logoutput");
-          // options_.logStderr    = (lower == "logerrors");
-          // options_.doDeleteLog  = (lower == "logdelete");
-          // options_.optionString = (lower == "default")?"default":options_.optionString;
-          // options_.optionString = (lower == "pagecache")?"default":options_.optionString;
-          // options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
-          // options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
+          check_set_options(options_, lower, switch_);
           if (lower == "mode")
           {
             if (args[index + 2].empty())
@@ -62,15 +54,7 @@ namespace ParseArgs
           switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
           isHelp                = (lower == "h");
-          set_check_options(options_, lower, switch_);
-          // options_.isQuiet      = (lower == "q");
-          // options_.logStdout    = (switch_ == "l");
-          // options_.logStderr    = (switch_ == "L");
-          // options_.doDeleteLog  = (lower == "x");
-          // options_.optionString = (lower == "default")?"default":options_.optionString;
-          // options_.optionString = (lower == "pagecache")?"default":options_.optionString;
-          // options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
-          // options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
+          check_set_options(options_, lower, switch_);
           if (lower == "m")
           {
             if (args[index + 2].empty())
@@ -120,12 +104,13 @@ namespace ParseArgs
   }
   void SetOptions
   (
-    Options & options_,
-    bool isQuiet,
-    bool logStdout,
-    bool logStderr,
-    bool doDeleteLog,
-    std::string optionString
+      Options &options_,
+      bool isQuiet,
+      bool logStdout,
+      bool logStderr,
+      bool doDeleteLog,
+      std::string optionString,
+      std::string logFile
   )
   {
     options_.isQuiet      = isQuiet;
@@ -133,6 +118,7 @@ namespace ParseArgs
     options_.logStderr    = logStderr;
     options_.doDeleteLog  = doDeleteLog;
     options_.optionString = optionString;
+    options_.logFile      = logFile;
   }
   std::string to_lower(std::string anyCaseString)
   {
@@ -174,7 +160,7 @@ namespace ParseArgs
       try_catch_exit(exitcode_, options_.isQuiet);
     }
   }
-  void set_check_options(Options & options_, std::string lower, std::string switch_)
+  void check_set_options(Options & options_, std::string lower, std::string switch_)
   {
     options_.isQuiet      = (lower == "q");
     options_.logStdout    = (switch_ == "l");
