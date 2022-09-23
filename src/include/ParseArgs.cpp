@@ -27,7 +27,7 @@ namespace ParseArgs
           std::string switch_ = string_.substr(2);
           switch_check(switch_, exitcode_, options_);
           const std::string lower = to_lower(switch_);
-          isHelp                = (lower == "help");
+          isHelp                  = (lower == "help");
           check_set_options(options_, lower, switch_);
           if (lower == "mode")
           {
@@ -48,7 +48,7 @@ namespace ParseArgs
           }
           continue;
         }
-        if (string_.substr(0, 1) == "-")
+        if ((string_.substr(0, 1) == "-") && (string_.substr(1, 1) != "-"))
         {
           std::string switch_ = string_.substr(1);
           switch_check(switch_, exitcode_, options_);
@@ -162,38 +162,55 @@ namespace ParseArgs
   }
   void check_set_options(Options & options_, std::string lower, std::string switch_)
   {
-    options_.isQuiet      = (lower == "q");
-    options_.logStdout    = (switch_ == "l");
-    options_.logStderr    = (switch_ == "L");
-    options_.doDeleteLog  = (lower == "x");
-    options_.optionString = (lower == "default")?"default":options_.optionString;
-    options_.optionString = (lower == "pagecache")?"default":options_.optionString;
-    options_.optionString = (lower == "slabobjects")?"slabobjects":options_.optionString;
-    options_.optionString = (lower == "fullcache")?"fullcache":options_.optionString;
+    options_.isQuiet      = (((lower == "q")    || (lower == "quiet"))      ?true:options_.isQuiet);
+    options_.logStdout    = (((switch_ == "l")  || (lower == "logoutput"))  ?true:options_.logStdout);
+    options_.logStderr    = (((switch_ == "L")  || (lower == "logerrors"))  ?true:options_.logStderr);
+    options_.doDeleteLog  = (((lower == "x")    || (lower == "logdelete"))  ?true:options_.doDeleteLog);
+    options_.optionString = (lower == "default")      ?"default"      :options_.optionString;
+    options_.optionString = (lower == "pagecache")    ?"pagecache"    :options_.optionString;
+    options_.optionString = (lower == "slabobjects")  ?"slabobjects"  :options_.optionString;
+    options_.optionString = (lower == "fullcache")    ?"fullcache"    :options_.optionString;
+    options_.optionString = (lower == "d")  ?"default"      :options_.optionString;
+    options_.optionString = (lower == "p")  ?"pagecache"    :options_.optionString;
+    options_.optionString = (lower == "s")  ?"slabobjects"  :options_.optionString;
+    options_.optionString = (lower == "f")  ?"fullcache"    :options_.optionString;
   }
   void check_delete_log(Options &options)
   {
     if (options.doDeleteLog)
     {
-      if (remove(options.logFile.c_str()) == 0)
+      if (FILE * open_file = fopen(options.logFile.c_str(), "r"))
       {
-        if (!options.isQuiet)
+        fclose(open_file);
+        if (remove(options.logFile.c_str()) == 0)
         {
-          const std::string message =
-            "Log file '" +
-            options.logFile +
-            "' deleted successfully.";
-          std::cout << message << '\n';
+          if (!options.isQuiet)
+          {
+            const std::string message =
+              "Log file '" +
+              options.logFile +
+              "' deleted successfully.";
+            std::cout << message << '\n';
+          }
+        }
+        else
+        {
+          if (!options.isQuiet)
+          {
+            const std::string message = "Log file '" + options.logFile + "' could not be deleted.";
+            std::cerr << message << '\n';
+          }
         }
       }
       else
       {
-      if (!options.isQuiet)
+        if (!options.isQuiet)
         {
-          const std::string message = "Log file '" + options.logFile + "' could not be deleted.";
-          std::cerr << message << '\n';
+          const std::string message = "Log file '" + options.logFile + "' doesn't exist.";
+          std::cout << message << '\n';
         }
       }
+      std::exit(0);
     }
   }
-};
+}
